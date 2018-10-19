@@ -1,7 +1,7 @@
 import re
 import sys
 
-from tools import general_functions as g
+from pytools import general_functions as g
 #import general_functions as g # For testing
 
 
@@ -40,7 +40,7 @@ def smatch(string, re_pattern, excl_pattern=None, ignr_pattern=None):
         for i in range(0,len(re_match)):
             r = re_match[i]
             re_match[i] = string[r[0]:r[1]]
-        return re_match
+        return re_match[0]
 
 # Removes pattern from string, excluding if pattern overlaps with any excluding pattern
 # [ADD] making excl_pattern a list of excl_pattern's

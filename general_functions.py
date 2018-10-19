@@ -12,6 +12,7 @@ def occurs(pattern, string, overlapping=False):
 # Returns part of string before a pattern and occurrence of that pattern
 def after(pattern, string, occurrence=0, overlapping=False):
     o = occurs_indices(pattern, string, overlapping)
+    if o == None: return None
     if occurrence >= 0 and occurrence < len(o) \
     or occurrence < 0 and abs(occurrence) <= len(o):
         return string[o[occurrence]+len(pattern):]
@@ -23,7 +24,8 @@ def after(pattern, string, occurrence=0, overlapping=False):
 # Returns part of string after a pattern and occurrence of that pattern
 def before(pattern, string, occurrence=0, overlapping=False):
     o = occurs_indices(pattern, string, overlapping)
-    if occurrence >= 0 and occurrence < len(o) \
+    if o == None: return None
+    elif occurrence >= 0 and occurrence < len(o) \
     or occurrence < 0 and abs(occurrence) <= len(o):
         return string[:o[occurrence]]
     else:

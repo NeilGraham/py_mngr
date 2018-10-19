@@ -7,6 +7,7 @@ import os
 import sys
 import codecs
 import hashlib
+import csv
 
 
 # Create an excel file
@@ -258,3 +259,12 @@ def get_hash(excelfile):
     hash_object = hashlib.sha1(content.encode())
     hex_dig = hash_object.hexdigest()
     return str(hex_dig)
+
+def convert_csv(path):
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    with open(path) as f:
+        reader = csv.reader(f, delimiter=':')
+        for row in reader:
+            ws.append(row)
+    return wb, ws
