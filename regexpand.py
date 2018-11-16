@@ -1,8 +1,7 @@
 import re
 import sys
 
-#from pytools import general_functions as g
-import general_functions as g # For testing
+from py_mngr import general as g
 
 
 def split(string, re_pattern, excl_pattern=None, ignr_pattern=None):
