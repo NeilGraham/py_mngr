@@ -71,6 +71,13 @@ def occurs_indices(pattern, string, overlapping=False):
     if len(o) == 0: return None
     else: return o 
 
+
+# Returns a list of all methods for an object
+# TODO: verbose=True makes it so __method__ functions are returned
+def list_methods(obj, verbose=False):
+    return [method_name for method_name in dir(obj) if callable(getattr(obj, method_name))]
+
+
 #  __ INDEX FUNCTIONS _______________________________________________________ 
 # |                                                                          |
 # |  All 'index parameters' must either be a range (2 length tuple w/ the    |
