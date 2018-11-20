@@ -67,6 +67,15 @@ def verify(string, re_pattern, excl_pattern=None, ignr_pattern=None):
         else:
             return False
 
+# Replaces all highlighted sections (merged if overlapping) with replace string
+def replace(repl_str, string, re_pattern, excl_pattern=None, ignr_pattern=None):
+    re_match = _select(string, re_pattern, excl_pattern, ignr_pattern)
+    if not re_match: return string
+    else:
+        re_match = g.merge_indices(re_match)
+        return g.replace_indices(string, re_match, repl_str)
+            
+
 #   _____________________________________________________________________   #
 
 
