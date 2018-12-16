@@ -9,23 +9,28 @@ import hashlib
 import pickle
 
 # Returns all lines
-#  Must pass file ext along as nfile
-def get_all(nfile):
-    with open(nfile, 'r') as f:
+#  Must pass file ext along as path
+def get_all(path):
+    with open(path, 'r') as f:
         objects = f.readlines()
         for i in range(0, len(objects)):
             objects[i] = objects[i][:-1]
         return objects
 
+# Returns file as string
+def get_string(path):
+    with open(path, 'r') as f:
+        return f.read().replace('\n', '')
+
 # Returns a line with respect to index
-def get_line(nfile, index):
-    with open(nfile, 'r') as f:
+def get_line(path, index):
+    with open(path, 'r') as f:
         content = f.readlines()
         return content[index][:-1]
 
 # Returns index of the first line to match a substring parameter
-def get_index(nfile, substring):
-    with open(nfile, 'r') as f:
+def get_index(path, substring):
+    with open(path, 'r') as f:
         content = f.readlines()
         for i in range(0, len(content)):
             if substring == content[i]:
@@ -33,35 +38,35 @@ def get_index(nfile, substring):
         return -1
 
 # Appends a new line to a file
-def append_line(nfile, string, endline='\n'):
-    with open(nfile, 'a') as f:
+def append_line(path, string, endline='\n'):
+    with open(path, 'a') as f:
         f.write(string + endline)
 
 # Replaces line at index contents with string
-def edit_line(nfile, index, string):
-    with open(nfile, 'r') as rf:
+def edit_line(path, index, string):
+    with open(path, 'r') as rf:
         entire = rf.read()
-        file_len = file_length(nfile)
+        file_len = file_length(path)
         if index < file_len:
             start, end = index_position(entire, index)
-            with open(nfile, 'w') as wf:
+            with open(path, 'w') as wf:
                 wf.write(entire[:start] + str(string) + entire[end:])
         else:
-            if file_exists(nfile):
-                with open(nfile, 'a') as af:
+            if file_exists(path):
+                with open(path, 'a') as af:
                     for i in range(0, index - file_len):
                         af.write('\n')
                     af.write(string+'\n')
             else:
-                print('ERROR: ' + nfile + ' does not exist')
+                print('ERROR: ' + path + ' does not exist')
 
 # Return the contents of a line while removing that line from the file
-def file_pop(nfile, index):
+def file_pop(path, index):
     item = ''
-    with open(nfile, 'r') as rf:
+    with open(path, 'r') as rf:
         entire = rf.read()
         start, end = index_position(entire, index)
-        with open(nfile, 'w') as wf:
+        with open(path, 'w') as wf:
             item = entire[start:end]
             wf.write(entire[:start-1] + entire[end:])
     return item
@@ -78,15 +83,15 @@ def get_pickle(file_path):
 # ---------------------------------------------- #
 
 # Delete an entire file
-def remove_file(nfile):
-    os.remove(nfile)
+def remove_file(path):
+    os.remove(path)
 
 # Delete an entire directory along with it's sub-file structure
 def remove_directory(ndir):
     os.remove(ndir)
 
 # Create a file if it does not already exist
-#def create_file(nfile):
+#def create_file(path):
 
 
 # Create a directory if it does not already exist
@@ -126,15 +131,15 @@ def list_files(ext=''):
     return files
 
 # Return the number of lines in a file
-def file_length(nfile):
-   with open(nfile, 'r') as f:
+def file_length(path):
+   with open(path, 'r') as f:
        return len(f.readlines())
 
 # ---------------------------------------------- #
 
-def file_exists(nfile):
+def file_exists(path):
     for file in list_files():
-        if file == nfile:
+        if file == path:
             return True
     return False
 
@@ -196,9 +201,9 @@ def index_position(text, index):
 # ---------------------------------------------- #
 
 # Create a hash with respect to an excel file's string contents
-def get_hash(nfile):
+def get_hash(path):
     content = ''
-    lines = get_all(nfile)
+    lines = get_all(path)
     for i in range(0,len(lines)):
         content += lines[i]
         content += '~/'
